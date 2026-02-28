@@ -118,7 +118,7 @@ export function Skills() {
                           initial={{ width: 0 }}
                           animate={isInView ? { width: `${skill.level}%` } : {}}
                           transition={{ duration: 1, delay: categoryIndex * 0.2 + skillIndex * 0.1 }}
-                          className="h-full bg-gradient-to-r from-primary via-purple-500 to-pink-500 rounded-full group-hover:shadow-lg transition-shadow"
+                          className="h-full bg-gradient-to-r from-primary via-blue-400 to-cyan-400 rounded-full group-hover:shadow-lg transition-shadow"
                         />
                       </div>
                     </motion.div>

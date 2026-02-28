@@ -38,12 +38,12 @@ export function ProjectShowcase({ project }: ProjectShowcaseProps) {
           transition={{ duration: 0.3 }}
           className="mb-8"
         >
-          <Link href="/#projects">
-            <Button variant="ghost" className="group">
+          <Button variant="ghost" className="group" asChild>
+            <Link href="/#projects">
               <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
               Back to Projects
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </motion.div>
 
         {/* Header */}
@@ -73,7 +73,7 @@ export function ProjectShowcase({ project }: ProjectShowcaseProps) {
             </CardHeader>
             <CardContent className="space-y-6">
               <p className="text-muted-foreground leading-relaxed">{overview.description}</p>
-              
+
               <div className="flex items-center gap-2">
                 <span className="font-medium">Role:</span>
                 <Badge variant="outline">{overview.role}</Badge>

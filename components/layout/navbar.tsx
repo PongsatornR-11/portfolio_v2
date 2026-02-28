@@ -82,16 +82,16 @@ export function Navbar() {
                 transition={{ duration: 0.5, delay: 0.5 }}
                 className="flex items-center gap-2"
               >
-                <Link href="https://github.com/PongsatornR-11" target="_blank" rel="noopener noreferrer">
-                  <Button variant="ghost" size="icon" className="hover-lift">
+                <Button variant="ghost" size="icon" className="hover-lift" asChild>
+                  <Link href="https://github.com/PongsatornR-11" target="_blank" rel="noopener noreferrer">
                     <Github className="h-5 w-5" />
-                  </Button>
-                </Link>
-                <Link href="/Pongsatorn's Resume.pdf" target="_blank">
-                  <Button variant="ghost" size="icon" className="hover-lift">
+                  </Link>
+                </Button>
+                <Button variant="ghost" size="icon" className="hover-lift" asChild>
+                  <Link href="/Pongsatorn's Resume.pdf" target="_blank">
                     <FileText className="h-5 w-5" />
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </motion.div>
               {mounted && (
                 <motion.div
@@ -155,26 +155,26 @@ export function Navbar() {
                   </motion.div>
                 ))}
                 <div className="flex items-center gap-4 pt-4 border-t border-border">
-                  <Link href="https://github.com/PongsatornR-11" target="_blank" rel="noopener noreferrer">
-                    <Button variant="ghost" size="icon">
+                  <Button variant="ghost" size="icon" asChild>
+                    <Link href="https://github.com/PongsatornR-11" target="_blank" rel="noopener noreferrer">
                       <Github className="h-6 w-6" />
-                    </Button>
-                  </Link>
-                  <Link href="https://www.facebook.com/bas.pongsatorn/" target="_blank" rel="noopener noreferrer">
-                    <Button variant="ghost" size="icon">
+                    </Link>
+                  </Button>
+                  <Button variant="ghost" size="icon" asChild>
+                    <Link href="https://www.facebook.com/bas.pongsatorn/" target="_blank" rel="noopener noreferrer">
                       <Facebook className="h-6 w-6" />
-                    </Button>
-                  </Link>
-                  <Link href="https://www.instagram.com/bass_sssssy/" target="_blank" rel="noopener noreferrer">
-                    <Button variant="ghost" size="icon">
+                    </Link>
+                  </Button>
+                  <Button variant="ghost" size="icon" asChild>
+                    <Link href="https://www.instagram.com/bass_sssssy/" target="_blank" rel="noopener noreferrer">
                       <Instagram className="h-6 w-6" />
-                    </Button>
-                  </Link>
-                  <Link href="/Pongsatorn's Resume.pdf" target="_blank">
-                    <Button variant="ghost" size="icon">
+                    </Link>
+                  </Button>
+                  <Button variant="ghost" size="icon" asChild>
+                    <Link href="/Pongsatorn's Resume.pdf" target="_blank">
                       <FileText className="h-6 w-6" />
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </div>
               </div>
             </nav>

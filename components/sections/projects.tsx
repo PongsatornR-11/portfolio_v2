@@ -40,7 +40,10 @@ const projects = [
   },
 ];
 
+import { useRouter } from "next/navigation";
+
 export function Projects() {
+  const router = useRouter();
   return (
     <section id="projects" className="py-24 bg-muted/30">
       <div className="container mx-auto px-4">
@@ -64,10 +67,12 @@ export function Projects() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -5 }}
+              onClick={() => router.push(`/project/${project.id}`)}
+              className="cursor-pointer h-full"
             >
-              <Link href={`/project/${project.id}`}>
-                <Card className="h-full overflow-hidden group border-border hover:border-primary/50 transition-all duration-300 cursor-pointer">
-                  <div className="relative overflow-hidden aspect-video bg-gradient-to-br from-primary/20 via-purple-500/20 to-pink-500/20">
+              <div className="h-full">
+                <Card className="h-full overflow-hidden group border-border hover:border-primary/50 transition-all duration-300">
+                  <div className="relative overflow-hidden aspect-video bg-gradient-to-br from-primary/20 via-blue-500/20 to-cyan-500/20">
                     <div className="absolute inset-0 flex items-center justify-center text-5xl">
                       {project.emoji}
                     </div>
@@ -111,7 +116,7 @@ export function Projects() {
                     </Button>
                   </CardFooter>
                 </Card>
-              </Link>
+              </div>
             </motion.div>
           ))}
         </div>

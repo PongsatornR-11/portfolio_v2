@@ -63,7 +63,7 @@ export function About() {
             className="relative"
           >
             <div className="relative aspect-square max-w-md mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-purple-500/20 to-pink-500/20 rounded-2xl animate-pulse-glow" />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-blue-500/20 to-cyan-500/20 rounded-2xl animate-pulse-glow" />
               <div className="absolute inset-4 bg-muted rounded-xl overflow-hidden">
                 <Image
                   src="/PongsatornR_Pic.jpg"
