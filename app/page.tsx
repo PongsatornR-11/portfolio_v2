@@ -60,8 +60,11 @@ function BackToTop() {
 function CursorEffect() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -83,37 +86,37 @@ function CursorEffect() {
     };
   }, []);
 
+  if (!mounted) return null;
+
   return (
-    <>
+    <div className="hidden md:block">
       <motion.div
-        className="fixed top-0 left-0 w-4 h-4 bg-primary rounded-full pointer-events-none z-[100] mix-blend-difference hidden md:block"
-        animate={{
-          x: mousePosition.x - 8,
-          y: mousePosition.y - 8,
-          scale: isHovering ? 2 : 1,
-        }}
+        className="fixed top-0 left-0 w-4 h-4 bg-primary rounded-full pointer-events-none z-[100] mix-blend-difference"
+        style={{ left: mousePosition.x - 8, top: mousePosition.y - 8 }}
+        animate={{ scale: isHovering ? 2 : 1 }}
         transition={{ type: "spring", stiffness: 500, damping: 28 }}
       />
       <motion.div
-        className="fixed top-0 left-0 w-10 h-10 border-2 border-primary rounded-full pointer-events-none z-[100] mix-blend-difference hidden md:block"
-        animate={{
-          x: mousePosition.x - 20,
-          y: mousePosition.y - 20,
-          scale: isHovering ? 1.5 : 1,
-        }}
+        className="fixed top-0 left-0 w-10 h-10 border-2 border-primary rounded-full pointer-events-none z-[100] mix-blend-difference"
+        style={{ left: mousePosition.x - 20, top: mousePosition.y - 20 }}
+        animate={{ scale: isHovering ? 1.5 : 1 }}
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
       />
-    </>
+    </div>
   );
 }
 
 function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const timer = setTimeout(() => setIsLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  if (!mounted) return null;
 
   return (
     <AnimatePresence>

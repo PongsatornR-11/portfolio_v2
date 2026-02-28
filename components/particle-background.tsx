@@ -17,14 +17,17 @@ export function ParticleBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [particles, setParticles] = useState<Particle[]>([]);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    
     const newParticles: Particle[] = [];
     for (let i = 0; i < 50; i++) {
       newParticles.push({
         id: i,
-        x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1000),
-        y: Math.random() * (typeof window !== "undefined" ? window.innerHeight : 800),
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
         size: Math.random() * 3 + 1,
         speedX: (Math.random() - 0.5) * 0.5,
         speedY: (Math.random() - 0.5) * 0.5,
@@ -41,6 +44,8 @@ export function ParticleBackground() {
   }, []);
 
   useEffect(() => {
+    if (!mounted) return;
+    
     const interval = setInterval(() => {
       setParticles((prev) =>
         prev.map((p) => {
@@ -67,7 +72,9 @@ export function ParticleBackground() {
     }, 50);
 
     return () => clearInterval(interval);
-  }, [mousePos]);
+  }, [mousePos, mounted]);
+
+  if (!mounted) return null;
 
   return (
     <div
