@@ -102,17 +102,6 @@ export function Footer() {
             &copy; {currentYear} Pongsatorn R. Made with{" "}
             <Heart className="h-4 w-4 text-red-500 fill-red-500" /> using Next.js
           </p>
-          <p className="text-sm mt-2">
-            Inspired by{" "}
-            <a
-              href="https://github.com/bchiang7/v4"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              Brittany Chiang
-            </a>
-          </p>
         </motion.div>
       </div>
     </footer>

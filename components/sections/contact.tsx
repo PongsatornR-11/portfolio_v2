@@ -1,8 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState } from "react";
-import { Mail, MapPin, Send, Github, Facebook, Instagram } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef } from "react";
+import emailjs from "@emailjs/browser";
+import { Mail, MapPin, Send, Github, Facebook, Instagram, CheckCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -17,22 +18,41 @@ const socialLinks = [
   { icon: Instagram, href: "https://www.instagram.com/bass_sssssy/", label: "Instagram" },
 ];
 
+type FormStatus = "idle" | "loading" | "success" | "error";
+
 export function Contact() {
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<FormStatus>("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsSubmitting(false);
-    setFormData({ name: "", email: "", subject: "", message: "" });
-    window.location.href = "mailto:pongsatorn.rk@gmail.com";
+    setStatus("loading");
+
+    try {
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error("EmailJS configuration missing");
+      }
+
+      await emailjs.sendForm(serviceId, templateId, formRef.current!, publicKey);
+      
+      setStatus("success");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+      
+      setTimeout(() => setStatus("idle"), 5000);
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 5000);
+    }
   };
 
   return (
@@ -128,7 +148,7 @@ export function Contact() {
           >
             <Card className="border-border">
               <CardContent className="p-6">
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label htmlFor="name" className="text-sm font-medium">
@@ -136,6 +156,7 @@ export function Contact() {
                       </label>
                       <input
                         id="name"
+                        name="name"
                         type="text"
                         placeholder="Your name"
                         value={formData.name}
@@ -150,6 +171,7 @@ export function Contact() {
                       </label>
                       <input
                         id="email"
+                        name="email"
                         type="email"
                         placeholder="your@email.com"
                         value={formData.email}
@@ -165,6 +187,7 @@ export function Contact() {
                     </label>
                     <input
                       id="subject"
+                      name="subject"
                       type="text"
                       placeholder="What's this about?"
                       value={formData.subject}
@@ -179,6 +202,7 @@ export function Contact() {
                     </label>
                     <textarea
                       id="message"
+                      name="message"
                       placeholder="Tell me about your project..."
                       rows={5}
                       value={formData.message}
@@ -187,12 +211,42 @@ export function Contact() {
                       required
                     />
                   </div>
+
+                  <AnimatePresence mode="wait">
+                    {status === "success" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="flex items-center gap-2 p-3 rounded-lg bg-green-500/10 text-green-500 border border-green-500/20"
+                      >
+                        <CheckCircle className="h-5 w-5" />
+                        <span>Message sent successfully!</span>
+                      </motion.div>
+                    )}
+                    {status === "error" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="flex items-center gap-2 p-3 rounded-lg bg-red-500/10 text-red-500 border border-red-500/20"
+                      >
+                        <AlertCircle className="h-5 w-5" />
+                        <span>Failed to send message. Please try again.</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
                   <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: status === "idle" ? 1.02 : 1 }}
+                    whileTap={{ scale: status === "idle" ? 0.98 : 1 }}
                   >
-                    <Button type="submit" className="w-full glow glow-hover" disabled={isSubmitting}>
-                      {isSubmitting ? (
+                    <Button 
+                      type="submit" 
+                      className="w-full glow glow-hover" 
+                      disabled={status === "loading"}
+                    >
+                      {status === "loading" ? (
                         <motion.div
                           animate={{ rotate: 360 }}
                           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}

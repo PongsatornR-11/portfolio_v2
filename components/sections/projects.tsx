@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ExternalLink, Github, ArrowRight } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,31 +12,31 @@ const projects = [
     id: "ecommerce-shopping-website",
     title: "Ecommerce Shopping Website",
     description: "A full-stack e-commerce platform built with React, Node.js (Express), MySQL (Prisma), and integrated with Cloudinary for image management and Stripe for payments. Features user authentication, product browsing, shopping cart, and admin panel.",
-    image: "/projectPics/ecommerce/Screenshot Ecommerce Project.jpg",
     tags: ["React", "Node.js", "MySQL", "Prisma", "Stripe", "Tailwind CSS"],
     liveUrl: "https://ecom.mypiserviceshub.com/",
     githubUrl: "https://github.com/PongsatornR-11/Ecommerce",
     featured: true,
+    emoji: "🛒",
   },
   {
     id: "camping-website",
     title: "Camping Website",
     description: "A web application for discovering and managing camping locations in Thailand. Users can browse, search, view details, save favorites, and add new locations. Features Clerk auth, interactive map with Leaflet.",
-    image: "/projectPics/camping/Screenshot camping Project.jpg",
     tags: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Clerk", "Shadcn UI"],
     liveUrl: "https://github.com/PongsatornR-11/camping",
     githubUrl: "https://github.com/PongsatornR-11/camping",
     featured: true,
+    emoji: "🏕️",
   },
   {
-    id: "system-monitor",
+    id: "system-monitor-raspberry-pi",
     title: "System Monitor for Raspberry Pi",
     description: "A full-stack application providing a web-based interface to monitor Raspberry Pi system resources in real-time. Displays CPU, memory, and network info with interactive charts and modern UI.",
-    image: "/projectPics/system_monitor/Screenshot Systemmonitor Project.jpg",
     tags: ["React", "Express.js", "Tailwind CSS", "Cloudflared", "PM2"],
     liveUrl: "https://sysmonitor.mypiserviceshub.com/",
     githubUrl: "https://github.com/PongsatornR-11/sysmonitor",
     featured: true,
+    emoji: "📊",
   },
 ];
 
@@ -64,74 +65,53 @@ export function Projects() {
               viewport={{ once: true }}
               whileHover={{ y: -5 }}
             >
-              <Card className="h-full overflow-hidden group border-border hover:border-primary/50 transition-all duration-300">
-                <div className="relative overflow-hidden aspect-video bg-gradient-to-br from-primary/20 via-purple-500/20 to-pink-500/20">
-                  <div className="absolute inset-0 flex items-center justify-center text-4xl">
-                    {index === 0 && "🛒"}
-                    {index === 1 && "🏕️"}
-                    {index === 2 && "📊"}
-                  </div>
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    className="absolute inset-0 bg-primary/80 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <motion.a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
+              <Link href={`/project/${project.id}`}>
+                <Card className="h-full overflow-hidden group border-border hover:border-primary/50 transition-all duration-300 cursor-pointer">
+                  <div className="relative overflow-hidden aspect-video bg-gradient-to-br from-primary/20 via-purple-500/20 to-pink-500/20">
+                    <div className="absolute inset-0 flex items-center justify-center text-5xl">
+                      {project.emoji}
+                    </div>
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      className="absolute inset-0 bg-primary/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                     >
-                      <Button size="icon" variant="secondary">
-                        <ExternalLink className="h-5 w-5" />
-                      </Button>
-                    </motion.a>
-                    <motion.a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <Button size="icon" variant="secondary">
-                        <Github className="h-5 w-5" />
-                      </Button>
-                    </motion.a>
-                  </motion.div>
-                </div>
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    {project.title}
-                    {project.featured && (
-                      <Badge variant="secondary" className="text-xs">Featured</Badge>
-                    )}
-                  </CardTitle>
-                  <CardDescription className="line-clamp-3">{project.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <Badge key={tag} variant="outline" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
+                      <span className="text-white font-medium">View Details</span>
+                    </motion.div>
                   </div>
-                </CardContent>
-                <CardFooter className="gap-2">
-                  <Button variant="ghost" size="sm" asChild>
-                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="mr-2 h-4 w-4" />
-                      Live Demo
-                    </a>
-                  </Button>
-                  <Button variant="ghost" size="sm" asChild>
-                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                      <Github className="mr-2 h-4 w-4" />
-                      Code
-                    </a>
-                  </Button>
-                </CardFooter>
-              </Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center justify-between">
+                      {project.title}
+                      {project.featured && (
+                        <Badge variant="secondary" className="text-xs">Featured</Badge>
+                      )}
+                    </CardTitle>
+                    <CardDescription className="line-clamp-3">{project.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag) => (
+                        <Badge key={tag} variant="outline" className="text-xs">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                  <CardFooter className="gap-2" onClick={(e) => e.stopPropagation()}>
+                    <Button variant="ghost" size="sm" asChild>
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        Live Demo
+                      </a>
+                    </Button>
+                    <Button variant="ghost" size="sm" asChild>
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                        <Github className="mr-2 h-4 w-4" />
+                        Code
+                      </a>
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </Link>
             </motion.div>
           ))}
         </div>
